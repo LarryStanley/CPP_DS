@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -13,7 +14,7 @@ int main()
     cout << inputInteger << " X " << i << " = "  << inputInteger*i << " ";
     for(int j = 1; j<=i; j++){
       if(j == 1)
-	      cout <<inputInteger;
+	      cout << setw(6) <<inputInteger;
       else
 	      cout << " + " << inputInteger;
     }
