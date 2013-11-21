@@ -110,21 +110,11 @@ void printSingleResult(int year, int month, int day, int column, int stop)
 }
 
 int returnWeekday(int year, int month, int day){
-    int numberOfDay[12] = {0,3,3,6,1,4,6,2,5,0,3,5};
-    if(isLeapYear(year)){
-        numberOfDay[2]++;
-        numberOfDay[3] = 0;
-        numberOfDay[4]++;
-        numberOfDay[6]++;
-        numberOfDay[7]++;
-        numberOfDay[8]++;
-        numberOfDay[9]++;
-        numberOfDay[10]++;
-        numberOfDay[11]++;
-    }
-    
+    int a = (14-month)/12;
+    year = year - a;
+    month = month + 12*a -2;
     //萬年曆公式
-    return (year + year/4 +year/400 - year/100 + (numberOfDay[month-1] + day) -1)%7;
+    return (year + year/4 - year/100 + year/400 + 31*month/12 + day)%7;
 }
 
 int isLeapYear(int year){
