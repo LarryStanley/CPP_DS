@@ -23,7 +23,7 @@ class Toy_Car {
 			nextX = x;
 			nextY = y;
 		}
-		friend ostream& operator<< ( ostream& out, const Toy_Car& currentCar){
+		friend ostream& operator<< ( ostream& out, Toy_Car& currentCar){
 			while (currentCar.currentX != currentCar.nextX){
 				out << "\x1b[" << currentCar.currentX << ";" << currentCar.currentY << "H";
 				if(currentCar.currentX - currentCar.nextX > 0){
