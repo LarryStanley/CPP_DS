@@ -23,29 +23,30 @@ class Toy_Car {
 			nextX = x;
 			nextY = y;
 		}
-		friend void operator<< ( ostream& out, const Toy_Car& currentCar){
+		friend ostream& operator<< ( ostream& out, const Toy_Car& currentCar){
 			while (currentCar.currentX != currentCar.nextX){
-				cout << "\x1b[" << currentCar.currentX << ";" << currentCar.currentY << "H";
+				out << "\x1b[" << currentCar.currentX << ";" << currentCar.currentY << "H";
 				if(currentCar.currentX - currentCar.nextX > 0){
-					cout << "\x1b[" << 	currentCar.currentX - 1 << ";" << currentCar.currentY << "H" << currentCar.carName;
+					out << "\x1b[" << currentCar.currentX - 1 << ";" << currentCar.currentY << "H" << currentCar.carName;
 					currentCar.currentX--;
 				}else{	
-					cout << "\x1b[" << 	currentCar.currentX + 1 << ";" << currentCar.currentY << "H" << currentCar.carName;
+					out << "\x1b[" << currentCar.currentX + 1 << ";" << currentCar.currentY << "H" << currentCar.carName;
 					currentCar.currentX++;
 				}
                 usleep(currentCar.sleepTime);
 			}
 			while (currentCar.currentY != currentCar.nextY){
-				cout << "\x1b[" << currentCar.currentX << ";" << currentCar.currentY << "H";
+				out << "\x1b[" << currentCar.currentX << ";" << currentCar.currentY << "H";
 				if(currentY - nextY > 0){
-					cout << "\x1b[" << 	currentCar.currentX << ";" << currentCar.currentY - 1 << "H" << currentCar.carName;
+					out << "\x1b[" << currentCar.currentX << ";" << currentCar.currentY - 1 << "H" << currentCar.carName;
 					currentCar.currentY--;
 				}else{
-					cout << "\x1b[" << 	currentCar.currentX << ";" << currentCar.currentY - 1 << "H" << currentCar.carName;
+					out << "\x1b[" << currentCar.currentX << ";" << currentCar.currentY - 1 << "H" << currentCar.carName;
 					currentCar.currentY++;
 				}
                 usleep(currentCar.sleepTime);
 			}
+            return out;
 		}
 };
 
