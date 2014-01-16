@@ -1,0 +1,65 @@
+/*
+ 學號：101201033
+ 系級：數學二
+ 姓名：曾崇軒
+ 第_次作業：第十一次作業
+ 編譯環境：xcode
+ 聯絡信箱：kill.xmurderer@gmail.com
+*/
+
+/*
+8 8 7f 49 49 7f 8 8 
+8 8 3e 2a 2a 7f 14 63
+8 8 8 7f 1c 36 63 41
+2a 1c 7f 41 5d 4 3e 8
+*/
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <vector>
+
+using namespace std;
+
+int main(void){
+
+	const int numberOfChar = 4;
+	ifstream file("data.txt");
+	int wordMap[numberOfChar][8],writeData;
+	for (int i = 0; i < numberOfChar; i++){
+		for (int j = 0; j < 8; j++)
+			file >> hex >> wordMap[i][j];
+	}
+
+	ofstream outfile("transferData.txt", ios_base::out|ios_base::binary);
+
+	for (int i = 0; i < numberOfChar; i++){
+		for (int j = 0; j < 2; j++){
+			writeData = (wordMap[i][j*4] << 21) + (wordMap[i][j*4+1] << 14) + (wordMap[i][j*4+2] << 7) + (wordMap[i][j*4+3]);
+			outfile.write(reinterpret_cast<char*>(&writeData), sizeof(int));
+		}
+	}
+	outfile.close();
+	cout << "\x1b[2J\x1b[1;1H";
+
+	while (1 == 1){
+		for (int i = 0; i < 33; i++){
+			ifstream infile("transferData.txt", ios_base::in|ios_base::binary);
+			int charData[2];
+			for (int j = 0; j < numberOfChar; j++){
+				infile.read(reinterpret_cast<char*>(&charData), sizeof(int)*2);
+				for (int k = 0; k < 2; k++){
+					for (int l = 3; l >= 0; l--){
+						for (int m = 6; m >= 0; m--){
+							cout << "\x1b[" << 4*k+(3-l)+1 << ";" << (2*(6-m)+j*16+64-2*i)%64+1 << "H" << (charData[k] & (1 << (7*l+m)) ? "*" : " " ) << flush;
+							if (!m)
+								cout << "\x1b[" << 4*k+(3-l)+1 << ";" << (2*(6-m)+j*16+64-2*i+2)%64+1 << "H" << " " << flush;
+						}
+					}
+				}
+			}
+			usleep(100000);
+		}
+	}
+
+	return 0;
+}
